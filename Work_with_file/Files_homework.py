@@ -58,5 +58,7 @@ def paste_files_together(files):
 
 
 my_cook_book = parsing_cook_book(FILE_NAME)
+pprint(parsing_cook_book(FILE_NAME))
+print()
 pprint(get_shop_list_by_dishes(['Омлет', 'Омлет'], 1))
 paste_files_together(FILES_LIST)

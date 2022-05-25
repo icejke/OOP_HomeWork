@@ -1,5 +1,4 @@
 from pprint import pprint
-import re
 
 FILE_NAME = 'recipes.txt'
 
@@ -9,7 +8,6 @@ def parsing_cook_book(file_name):
         total_res = {}
         dish = file.readline().strip()
         for line in file:
-            # line = line.strip()
             quantity = int(line)
             ingredients = []
             for i in range(quantity):
@@ -19,7 +17,26 @@ def parsing_cook_book(file_name):
             total_res[dish] = ingredients
             file.readline()
             dish = file.readline().strip()
-        return pprint(total_res)
+        return total_res
 
 
-parsing_cook_book(FILE_NAME)
+def get_shop_list_by_dishes(dishes, person_count):
+    shop_list = {}
+    for dish in dishes:
+        if dish in my_cook_book:
+            for dish_ingr in my_cook_book[dish]:
+                name = dish_ingr['ingredient_name']
+                measure = dish_ingr['measure']
+                quantity = int(dish_ingr['quantity'])
+                if dish_ingr['ingredient_name'] not in shop_list:
+                    shop_list[name] = {'measure': measure, 'quantity': quantity * person_count}
+                else:
+                    shop_list[name]['quantity'] += (dish_ingr['quantity'] * person_count)
+
+        else:
+            print(f'Блюда "{dish}" нет в списке. Добавлять в список покупок не будем.\n')
+    return shop_list
+
+
+my_cook_book = parsing_cook_book(FILE_NAME)
+pprint(get_shop_list_by_dishes(['Омлет', 'Омлет'], 1))

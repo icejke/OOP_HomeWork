@@ -1,6 +1,7 @@
 from pprint import pprint
 
 FILE_NAME = 'recipes.txt'
+FILES_LIST = ['1.txt', '2.txt', '3.txt']
 
 
 def parsing_cook_book(file_name):
@@ -38,5 +39,24 @@ def get_shop_list_by_dishes(dishes, person_count):
     return shop_list
 
 
+def paste_files_together(files):
+    total_lines = dict()
+    for file in files:
+        lines_per_file = 0
+        with open(file, 'r', encoding='utf-8') as file_:
+            for file_line in file_:
+                lines_per_file += 1
+            total_lines[file] = lines_per_file
+    files_sorted_by_lines = dict(sorted(total_lines.items(), key=lambda x: x[1]))
+    with open('files_result.txt', 'w', encoding='utf-8') as file__:
+        for name, lines in files_sorted_by_lines.items():
+            with open(name, 'r', encoding='utf-8') as temp_file:
+                file__.write(f'{name}\n{str(lines)}\n')
+                for text in temp_file:
+                    file__.write(text)
+                file__.write(f'\n\n')
+
+
 my_cook_book = parsing_cook_book(FILE_NAME)
 pprint(get_shop_list_by_dishes(['Омлет', 'Омлет'], 1))
+paste_files_together(FILES_LIST)
